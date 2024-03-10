@@ -17,7 +17,6 @@ jobs:
 
       - name: linting and unit testing
         run: |
-          echo "Running tests"
           yarn install
           yarn test
 

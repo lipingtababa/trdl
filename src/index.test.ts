@@ -1,18 +1,19 @@
 import { unstable_dev } from 'wrangler';
 import type { UnstableDevWorker } from 'wrangler';
 import { describe, expect, it, beforeAll, afterAll } from 'vitest';
-import { JsonSchema } from 'miniflare';
 
 describe('Worker', () => {
 	let worker: UnstableDevWorker;
 
 	beforeAll(async () => {
+		console.log("beforeAll invoked")
 		worker = await unstable_dev('src/index.ts', {
 			experimental: { disableExperimentalWarning: true },
 		});
 	});
 
 	afterAll(async () => {
+		console.log("afterAll invoked")
 		await worker.stop();
 	});
 
