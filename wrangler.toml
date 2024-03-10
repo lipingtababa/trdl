@@ -6,6 +6,13 @@ workers_dev = true
 [vars]
 REGION = "CLOUDFLARE"
 
+[env.staging]
+name = "trdl-staging"
+
+[env.production]
+name = "trdl"
+
+
 
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
