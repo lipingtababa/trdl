@@ -20,8 +20,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: dev --remote --port=12345 &
           postCommands: |
+              echo "Starting server"
+              yarn wrangler dev --remote --port=12345 &
               echo "Running tests"
               yarn test --dir ./test
 
