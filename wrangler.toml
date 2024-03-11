@@ -4,21 +4,20 @@ compatibility_date = "2022-10-10"
 workers_dev = true
 
 [vars]
-REGION = "CLOUDFLARE"
+    REGION = "CLOUDFLARE"
 
 [env.staging]
-name = "trdl-staging"
+    name = "trdl-staging"
+    [[kv_namespaces]]
+        binding = "trdl_kv"
+        id = "7c426b9b0d1941ba97f07bd0917bb812"
 
 [env.production]
-name = "trdl"
+    name = "trdl"
+    [[kv_namespaces]]
+        binding = "trdl_kv"
+        id = "b034b6511ba240d58f2a5f362fc9e303"
 
-
-
-# Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
-# Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
-# [[kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/

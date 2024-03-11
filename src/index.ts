@@ -10,6 +10,7 @@
 
 export interface Env {
 	REGION: string;
+	trdl_kv: KVNamespace;
 }
 
 export default {
@@ -25,8 +26,18 @@ export default {
 			});
 		}
 		else if (url.pathname.startsWith('/api')) {
-			// TODO implement the dynamic api
-			return new Response('TODO', {headers: {'content-type': 'text/plain'}});
+			let statusCode = 400;
+			const key = url.searchParams.get('key');
+			if (key) {
+				statusCode = 404;
+				const value = await env.trdl_kv.get(key);
+				if (value) {
+					statusCode = 200;
+					return new Response(value, {headers: {'content-type': 'text/plain'}});
+				}
+				return new Response(`${key} Not Found`, {status: statusCode, headers: {'content-type': 'text/plain'}});
+			}
+			return new Response("Key is required", {status: statusCode, headers: {'content-type': 'text/plain'}});
 		}
 
 		// Otherwise, return a simple response

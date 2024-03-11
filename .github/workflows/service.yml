@@ -7,6 +7,7 @@ on:
       - main
 env:
   REGION: CLOUDFLARE
+  APP_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -29,7 +30,6 @@ jobs:
 
       - name: run e2e test suite
         run: |
-          # wait for 1 minite for new version to be deployed. TODO: replace with a better solution
           echo "TODO"
 
       - name: deploy to production
