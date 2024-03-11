@@ -9,6 +9,8 @@ describe('Worker', () => {
 		console.log("beforeAll invoked")
 		worker = await unstable_dev('src/index.ts', {
 			experimental: { disableExperimentalWarning: true },
+			logLevel: "debug",
+			port: 40000,
 		});
 	});
 
