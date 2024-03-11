@@ -22,6 +22,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: dev --remote --port=12345
           postCommands: |
+              echo "Running tests"
               yarn test --dir ./test
 
       - name: deploy
