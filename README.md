@@ -1,39 +1,46 @@
 # Why is your solution so simple?
-Yes, this solution is quite simple. Too simple, some would say. And this is by design. Simplicity could be translated directly into low psychologic burden for application developers and low cost of maintenance for platform/DevOps engineers.
+Yes, this solution is quite simple. Too simple, some would say. 
 
-- There is no region/network/VPC/SG to manage, all of which are taken care of by CloudFlare.
-- There is no virtual machines to manage. CloudFlare invokes the worker on the nodes near the clients where requests arrive.
+And this is by design. Simplicity could be translated directly into low psychological burden for application developers and low cost of maintenance for platform/DevOps engineers.
+
+- There are no region/network/VPC/SG to manage, all of which are taken care of by CloudFlare.
+- There are no virtual machines to manage. CloudFlare invokes the worker on the nodes near the clients where requests arrive.
 - Cloudflare also takes care of sub-domains and certificates, in sharp contrast to AWS where managing certificates involves huge fees or huge incidents.
-- There are not much v1alpha1 APIs which break everytime you upgrade, as with Kubernetes. Check out CloudFlare's [Back Compatibility](https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/)
-- CI/CD is easy. To release a new version, all you need to do is to merge the PR into main branch. Github Actions and CloudFlare will ensure your code is upgraded safely.
+- There are not many v1alpha1 APIs which break every time you upgrade, as with Kubernetes. Check out CloudFlare's [Back Compatibility](https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/)
+- CI/CD is easy. To release a new version, all you need to do is to merge a PR into [main branch](https://github.com/lipingtababa/trdl). [Github Actions](./.github/workflows/service.yml) and [CloudFlare Wrangler](https://developers.cloudflare.com/workers/wrangler/commands/#deploy) will ensure the system is upgraded safely.
 
 # Assumptions
-Architecture design starts with requirement analysis. Here I make some assumptions about the requirements, which acts as a starting point and should be revisited interatively.
+Architecture design starts with requirement analysis. Here I make some assumptions about the requirements, which act as a starting point and should be revisited iteratively.
 
-- The website will keep being simple in term of business logics. For example, we don't expect it to be a e-commerce site.
+- The website will keep being simple in terms of business logics, fit into a nano service.
 
 - High Availability is the key metric
 
-- Maintenability is of great importance.
+- Maintainability is of great importance.
 
 # Implementation 
 ## CloudFlare Worker
-Besides the reasons aforementioned, CloudFlare is affordable. Running a CDN distribution, an ALB, an TLS certificate, a Kubernetes cluster, a simple service,  an ElasticCache on AWS for 1 week probably costs me 30 USD. Running it on CloudFlare Worker costs basically nothing.
-
-## CloudFlare Worker KV
+Besides the reasons aforementioned, CloudFlare is affordable. Running a CDN distribution, an ALB, a TLS certificate, a Kubernetes cluster, a simple service,  an ElasticCache on AWS for 1 week probably costs me 30 USD, while running it on CloudFlare Worker costs basically nothing.
 
 ## Github Actions
-Github Actions is flexible enough to support various work flows, but not too flexbile to confuse developers. It also pays great attention to security. Last but not least, it is a managed service, so maintenance is offloaded.
+GitHub Actions is flexible enough to support various workflows, but not too flexible to confuse developers. It also pays great attention to security. Last but not least, it is a managed service, so maintenance is offloaded.
 
 # Why can't I deploy the code in my computer?
 
-As an application developer, You can always use "yarn dev" and "yarn test" to simulate the runtime. However, it is strongly advised not to copy the code and deploy it somewhere. Instead, all the deployments SHOULD be managed by github workflows, which acts as the source of truth in term of deployments.
+As an application developer, one can always use "yarn dev" and "yarn test" to simulate the runtime. 
+However, it is strongly advised NOT to copy the code and deploy it somewhere. Instead, all the deployments SHOULD be managed by [GitHub Actions workflows](./.github/workflows/service.yml), which acts as the source of truth in term of deployments.
+In case one really needs to copy the code and deploy it somewhere else, [CLOUDFLARE API_TOKEN and ACCOUNTID](./.github/workflows/service.yml#38) are the only parameters to update.
 
 # TODO
 ## Observability
 - To collect logs. Probably [tail worker](https://developers.cloudflare.com/workers/runtime-apis/handlers/tail/) is a good candidate.
 - To collect customized metrics. Probably Datadog is a good choice.
 
-## Cost optimization
-- Use static site to serve the fixed 42 response.
+## Test
+- Add E2E test suite
 
+## Cost Optimization
+- Use a static site to serve the fixed 42 response.
+
+## Extension of Functionalities
+- Implement the /api endpoint
