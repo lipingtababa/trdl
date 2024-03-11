@@ -7,7 +7,6 @@ on:
       - main
 env:
   REGION: CLOUDFLARE
-  APP_NAME: ${{ github.repository }}
 
 jobs:
   build:
@@ -16,25 +15,19 @@ jobs:
       - name: Get repo
         uses: actions/checkout@v4
 
-      - name: linting and unit testing
-        run: |
-          yarn install
-          yarn test
-
-      - name: Deploy to staging
+      - name: E2E testing
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env=staging
+          command: dev --remote --port=12345
+          postCommands: |
+              yarn test --dir ./test
 
-      - name: run e2e test suite
-        run: |
-          echo "TODO"
-
-      - name: deploy to production
+      - name: deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env=production
+          command: deploy
+    

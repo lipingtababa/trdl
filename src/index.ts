@@ -27,10 +27,13 @@ export default {
 		}
 		else if (url.pathname.startsWith('/api')) {
 			let statusCode = 400;
-			const key = url.searchParams.get('key');
+			let key = url.searchParams.get('president');
 			if (key) {
 				statusCode = 404;
+				key = decodeURIComponent(key);
+				console.log(key);
 				const value = await env.trdl_kv.get(key);
+				console.log(await env.trdl_kv.list());
 				if (value) {
 					statusCode = 200;
 					return new Response(value, {headers: {'content-type': 'text/plain'}});

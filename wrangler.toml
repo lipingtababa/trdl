@@ -5,18 +5,10 @@ workers_dev = true
 
 [vars]
     REGION = "CLOUDFLARE"
-
-[env.staging]
-    name = "trdl-staging"
-    [[kv_namespaces]]
-        binding = "trdl_kv"
-        id = "7c426b9b0d1941ba97f07bd0917bb812"
-
-[env.production]
-    name = "trdl"
-    [[kv_namespaces]]
-        binding = "trdl_kv"
-        id = "b034b6511ba240d58f2a5f362fc9e303"
+[[kv_namespaces]]
+    binding = "trdl_kv"
+    id = "b034b6511ba240d58f2a5f362fc9e303"
+    preview_id = "0c64a2c3486b4262ba83df8ec1684d21"
 
 
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
