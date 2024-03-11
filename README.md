@@ -1,12 +1,12 @@
 # Why is your solution so simple?
-Yes, this solution is quite simple. Too simple, some would say. 
+Yes, this solution is very simple.
 
 And this is by design. Simplicity could be translated directly into low psychological burden for application developers and low cost of maintenance for platform/DevOps engineers.
 
-- There are no region/network/VPC/SG to manage, all of which are taken care of by CloudFlare.
-- There are no virtual machines to manage. CloudFlare invokes the worker on the nodes near the clients where requests arrive.
-- Cloudflare also takes care of sub-domains and certificates, in sharp contrast to AWS where managing certificates involves huge fees or huge incidents.
-- There are not many v1alpha1 APIs which break every time you upgrade, as with Kubernetes. Check out CloudFlare's [Back Compatibility](https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/)
+- We don't have to manage region/network/VPC/SG to manage, all of which are taken care of by CloudFlare.
+- we don't have to provision/upgrade/patch/decommission virtual machines. CloudFlare invokes workers on the nodes near the clients where requests arrive.
+- Cloudflare also takes care of sub-domains and certificates, in sharp contrast to AWS where you have to learn [a dedicated service](https://aws.amazon.com/certificate-manager/?nc=sn&loc=1), usually after you are hit by an embarrassing  incident.
+- There are not many v1alpha1 APIs which break every time you upgrade, as with Kubernetes. CloudFlare promised [Back Compatibility](https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/).
 - CI/CD is easy. To release a new version, all you need to do is to merge a PR into [main branch](https://github.com/lipingtababa/trdl). [Github Actions](./.github/workflows/service.yml) and [CloudFlare Wrangler](https://developers.cloudflare.com/workers/wrangler/commands/#deploy) will ensure the system is upgraded safely.
 
 # Assumptions
