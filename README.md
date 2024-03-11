@@ -19,17 +19,19 @@ Architecture design starts with requirement analysis. Here I make some assumptio
 - Maintainability is of great importance.
 
 # Implementation 
-## CloudFlare Worker
+## CloudFlare Worker as the main runtime
 Besides the reasons aforementioned, CloudFlare is affordable. Running a CDN distribution, an ALB, a TLS certificate, a Kubernetes cluster, a simple service,  an ElasticCache on AWS for 1 week probably costs me 30 USD, while running it on CloudFlare Worker costs basically nothing.
 
-## Github Actions
+## Github Actions as the pipeline-as-a-service provider
 GitHub Actions is flexible enough to support various workflows, but not too flexible to confuse developers. It also pays great attention to security. Last but not least, it is a managed service, so maintenance is offloaded.
 
-# Why can't I deploy the code in my computer?
+# How can I deploy it ?
 
-As an application developer, one can always use "yarn dev" and "yarn test" to simulate the runtime. 
-However, it is strongly advised NOT to copy the code and deploy it somewhere. Instead, all the deployments SHOULD be managed by [GitHub Actions workflows](./.github/workflows/service.yml), which acts as the source of truth in term of deployments.
-In case one really needs to copy the code and deploy it somewhere else, [CLOUDFLARE API_TOKEN and ACCOUNTID](./.github/workflows/service.yml#38) are the only parameters to update.
+As an application developer, one can always use "yarn dev" to start a local simulator and use "yarn test" to run unit test suite.
+
+However, it is strongly advised NOT to copy the code and deploy it somewhere. A good practice is that all the deployments are managed by [GitHub Actions workflows](./.github/workflows/service.yml), which acts as the source of truth in term of deployments.
+
+In case one really needs to copy the code and deploy it somewhere else, [CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID](./.github/workflows/service.yml#38) are the only parameters to update.
 
 # TODO
 ## Observability
@@ -37,10 +39,10 @@ In case one really needs to copy the code and deploy it somewhere else, [CLOUDFL
 - To collect customized metrics. Probably Datadog is a good choice.
 
 ## Test
-- Add E2E test suite
+- Add E2E test suite.
 
 ## Cost Optimization
 - Use a static site to serve the fixed 42 response.
 
 ## Extension of Functionalities
-- Implement the /api endpoint
+- Implement the `/api` endpoint.
