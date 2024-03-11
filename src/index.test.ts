@@ -9,8 +9,7 @@ describe('Worker', () => {
 		console.log("beforeAll invoked")
 		worker = await unstable_dev('src/index.ts', {
 			experimental: { disableExperimentalWarning: true },
-			logLevel: "debug",
-			port: 40000,
+			port: 40000, // This line fixes the ipv6/ipv4 mismatch bug, in a mysterious way
 		});
 	});
 
