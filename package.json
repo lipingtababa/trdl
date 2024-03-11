@@ -5,8 +5,7 @@
 	"license": "commercial",
 	"scripts": {
 		"deploy": "wrangler deploy src/index.ts",
-		"dev": "wrangler dev",
-		"start": "wrangler dev",
+		"dev": "wrangler dev --remote --ip=127.0.0.1  --port=12345 --log-level=debug &",
 		"test": "vitest run"
 	},
 	"devDependencies": {
