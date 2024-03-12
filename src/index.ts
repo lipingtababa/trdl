@@ -18,7 +18,7 @@ export default {
 
 		const url = new URL(request.url);
 		if (url.pathname === '/ping') {
-			// rerurn a json response with the region
+			// return basic info
 			return new Response(JSON.stringify({ region: env.REGION }), {
 				headers: {
 					'content-type': 'application/json',
