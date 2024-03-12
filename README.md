@@ -7,6 +7,23 @@ Architecture design starts with requirement analysis. Here I make some assumptio
 
 - Maintainability is of great importance.
 
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant HTTP server
+    participant Application
+    participant Database
+
+    User-->>HTTP server: get value
+    HTTP server-->>Application: get value
+    Application-->>Database: get value
+
+    Database-->>Application: return value
+    Application-->>HTTP server: return value
+    HTTP server-->>User: return value
+```
+
 # Why is your solution so simple?
 Yes, this solution is very simple.
 
@@ -48,7 +65,7 @@ As an application developer, one can always use "yarn dev" to start a local simu
 However, it is strongly advised NOT to copy the code and deploy it manually. A good practice is that all the deployments are managed by [GitHub Actions workflows](./.github/workflows/service.yml), which acts as the source of truth in term of deployments.
 
 In case one really needs to copy the code and deploy it somewhere else, he/she should update: 
-- [CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID](./.github/workflows/service.yml#38).
+- [CLOUDFLARE_API_TOKEN](./.github/workflows/service.yml#24) and [CLOUDFLARE_ACCOUNT_ID](./.github/workflows/service.yml#25).
 - The KV namespaces specified in [wrangler toml](./wrangler.toml#8)
 
 # TODO
@@ -59,5 +76,5 @@ In case one really needs to copy the code and deploy it somewhere else, he/she s
 - Use a static site to serve the fixed 42 response.
 
 ## Extension of Functionalities
-- ~~Implement the `/api` endpoint~~. [Done](./src/index.ts#28)
-- Implement the POST method.
+- ~~Implement the `/api` endpoint~~. [Done](./src/index.ts#13)
+- ~~Implement the POST method.~~ [Done](./src/index.ts#13)
