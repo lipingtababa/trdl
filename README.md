@@ -39,10 +39,11 @@ In case one really needs to copy the code and deploy it somewhere else, [CLOUDFL
 - To collect customized metrics. Probably Datadog is a good choice.
 
 ## Test
-- Add E2E test suite.
+- ~~Add E2E test suite~~.
 
 ## Cost Optimization
 - Use a static site to serve the fixed 42 response.
 
 ## Extension of Functionalities
-- Implement the `/api` endpoint.
+- ~~Implement the `/api` endpoint~~.
+- Implement the POST method.
