@@ -19,13 +19,15 @@ And this is by design. Simplicity could be translated directly into low psycholo
 - CI/CD is easy. To release a new version, all you need to do is to merge a PR into [main branch](https://github.com/lipingtababa/trdl). [Github Actions](./.github/workflows/service.yml) and [CloudFlare Wrangler](https://developers.cloudflare.com/workers/wrangler/commands/#deploy) will ensure the system is upgraded safely.
 
 # Implementation 
-## CloudFlare Worker as the main runtime
+## CloudFlare provides Worker as the main runtime
 Besides the reasons aforementioned, CloudFlare is affordable. Running a CDN distribution, an ALB, a TLS certificate, a Kubernetes cluster, a simple service,  an ElasticCache on AWS for 1 week probably costs me 30 USD, while running it on CloudFlare Worker costs basically nothing.
 
-## Github Actions as the pipeline-as-a-service provider
+Availability provided by CloudFlare is natuarally 
+
+## Github Actions provides the pipeline as a service
 GitHub Actions is flexible enough to support various workflows, but not too flexible to confuse developers. It also pays great attention to security. Last but not least, it is a managed service, so maintenance is offloaded.
 
-## CloudFlare built-in Observability
+## CloudFlare provides built-in Observability
 Given that our business logic is super simple, the http status codes provided by CloudFlare out of box can tell the whole story, mitigating the necessity of advanced observability tools.
 
 Also given the simplicity, logs will not enhance value but will incur substantial costs.
@@ -42,11 +44,11 @@ In case one really needs to copy the code and deploy it somewhere else, he/she s
 
 # TODO
 ## Test
-- ~~Add E2E test suite~~.
+- ~~Add E2E test suite~~.[Done](./test/e2e.test.ts)
 
 ## Cost Optimization
 - Use a static site to serve the fixed 42 response.
 
 ## Extension of Functionalities
-- ~~Implement the `/api` endpoint~~.
+- ~~Implement the `/api` endpoint~~. [Done](./src/index.ts#28)
 - Implement the POST method.
