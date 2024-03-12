@@ -30,7 +30,16 @@ GitHub Actions is flexible enough to support various workflows, but not too flex
 ## CloudFlare provides built-in Observability
 Given that our business logic is super simple, the http status codes provided by CloudFlare out of box can tell the whole story, mitigating the necessity of advanced observability tools.
 
-Also given the simplicity, logs will not enhance value but will incur substantial costs.
+Also given the simplicity, log collection will not enhance value but will incur substantial costs. Hence, it is not undertaken.
+
+## Identify and Mitigate Risks to Availability
+Considering the simplicity, risks to availability are very likely come from the network in stead of internal bugs, in forms of network failures or DDoS attacks.
+
+To mitigate these risks, we have to be able to deploy applications globally, which in turn requires a CDN.
+
+In fact, CloudFlare has such high confidence in their availability that they commit to [a SLA](https://www.cloudflare.com/en-gb/business-sla/) that, while strategically viable within a business context, is technically impossible.
+
+`The Service will serve Customer Content 100% of the time without qualification.`
 
 # How can I deploy it ?
 
