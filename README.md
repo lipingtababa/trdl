@@ -7,39 +7,20 @@ Architecture design starts with requirement analysis. Here I make some assumptio
 
 - Maintainability is of great importance.
 
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant HTTP server
-    participant Application
-    participant Database
-
-    User-->>HTTP server: get value
-    HTTP server-->>Application: get value
-    Application-->>Database: get value
-
-    Database-->>Application: return value
-    Application-->>HTTP server: return value
-    HTTP server-->>User: return value
-```
-
 # Why is your solution so simple?
-Yes, this solution is very simple.
+Yes, this solution is very simple. And it is by design.
 
-And this is by design. Simplicity could be translated directly into low psychological burden for application developers and low cost of maintenance for platform/DevOps engineers.
+Simplicity could be translated directly into low psychological burden for application developers and low cost of maintenance for platform/DevOps engineers.
 
 - We don't have to manage region/network/VPC/SG, all of which are taken care of by CloudFlare.
 - we don't have to provision/upgrade/patch/decommission virtual machines. CloudFlare invokes workers on the nodes near the clients where requests arrive.
 - Cloudflare also takes care of sub-domains and certificates, in sharp contrast to AWS where you have to learn [a dedicated service to certificates](https://aws.amazon.com/certificate-manager/) and [a dedicated service to domains](https://aws.amazon.com/route53/), usually after you are hit by an catastrophic incident.
 - There are not many v1alpha1 APIs which break every time you upgrade, as with Kubernetes. CloudFlare promises [Back Compatibility](https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/).
-- CI/CD is easy. To release a new version, all you need to do is to merge a PR into [main branch](https://github.com/lipingtababa/trdl). [Github Actions](./.github/workflows/service.yml) and [CloudFlare Wrangler](https://developers.cloudflare.com/workers/wrangler/commands/#deploy) will ensure the system is upgraded safely.
+- CI/CD is easy. To release a new version, all you need to do is to merge a PR into [main branch](https://github.com/lipingtababa/trdl). [Github Actions](https://github.com/lipingtababa/trdl/actions) and [CloudFlare Wrangler](https://developers.cloudflare.com/workers/wrangler/commands/#deploy) will ensure the system is upgraded safely.
 
 # Implementation 
 ## CloudFlare provides Worker as the main runtime
 Besides the reasons aforementioned, CloudFlare is affordable. Running a CDN distribution, an ALB, a TLS certificate, a Kubernetes cluster, a simple service,  an ElasticCache on AWS for 1 week probably costs me 30 USD, while running it on CloudFlare Worker costs basically nothing.
-
-Availability provided by CloudFlare is natuarally 
 
 ## Github Actions provides the pipeline as a service
 GitHub Actions is flexible enough to support various workflows, but not too flexible to confuse developers. It also pays great attention to security. Last but not least, it is a managed service, so maintenance is offloaded.
