@@ -78,3 +78,4 @@ In case one really needs to copy the code and deploy it somewhere else, he/she s
 ## Extension of Functionalities
 - ~~Implement the `/api` endpoint~~. [Done](./src/index.ts#13)
 - ~~Implement the POST method.~~ [Done](./src/index.ts#13)
+- Add authentication and authorization.
