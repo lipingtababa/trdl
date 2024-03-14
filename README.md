@@ -1,4 +1,4 @@
-# Architecting a Simple, Highly-Available Website with Cloudflare
+# Implementing a Simple, Highly-Available Website with Cloudflare
 
 # Assumptions of Requirements
 Architecture design starts with requirement analysis. Here I make some assumptions about the requirements, which act as a starting point and should be revisited iteratively.
@@ -26,14 +26,17 @@ Containers remain valuable for more complex projects. Examples from my portfolio
 
 - [Account](https://github.com/lipingtababa/account) runs on AWS Elastic Container Service, and consists of 5 micro-services, with Cloud Map as the service discovery tool.
 
-- [Bullet](https://github.com/lipingtababa/bullet), runs on AWS Elastic Container Service too, and has a very similar API as TRDL. It can run on a Minikube instance too.
+- [Bullets](https://github.com/lipingtababa/bullets), runs on AWS Elastic Container Service too, and has a very similar API as TRDL. It can run on a Minikube instance too.
 
 # Implementation 
 ## CloudFlare provides Worker as the main runtime
 As mentioned before, CloudFlare Worker simplify the operation significantly.
 - We don't have to manage region/network/VPC/SG, all of which are taken care of by CloudFlare.
+
 - we don't have to provision/upgrade/patch/decommission virtual machines. CloudFlare invokes workers on the nodes near the clients where requests arrive.
+
 - Cloudflare also takes care of sub-domains and certificates, in sharp contrast to AWS where you have to learn [a dedicated service to certificates](https://aws.amazon.com/certificate-manager/) and [a dedicated service to domains](https://aws.amazon.com/route53/), usually after you are hit by an catastrophic incident.
+
 - There are not many v1alpha1 APIs which break every time you upgrade, as with Kubernetes. CloudFlare promises [Back Compatibility](https://blog.cloudflare.com/backwards-compatibility-in-cloudflare-workers/).
 
 Also, CloudFlare has a much simpler and more affordable pricing model. You can never calculate how much a comparable AWS setup would cost (CloudFront distribution, ALB, TLS certificate, EKS cluster, a simple TRDL service,  and ElasticCache). In contrast, Cloudflare Worker costs are quite predictable.
