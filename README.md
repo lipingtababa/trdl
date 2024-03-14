@@ -1,4 +1,12 @@
 # Implementing a Simple, Highly-Available Website with Cloudflare
+TRDL is a simple web service which serves requests as below.
+
+```bash
+$ curl http://1.2.3.4/
+42
+```
+
+The requirements on TRDL are that the production system is a high availability service with a strict service level agreement (several “9”s uptime).
 
 # Assumptions of Requirements
 Architecture design starts with requirement analysis. Here I make some assumptions about the requirements, which act as a starting point and should be revisited iteratively.
@@ -22,9 +30,9 @@ While containerization and orchestration are prevalent, their complexity can be 
 
 Containers remain valuable for more complex projects. Examples from my portfolio include:
 
-- [IDP](https://github.com/lipingtababa/Internal-Developer-Platform) runs on AWS Elastic Kubernetes Service, and tries to provide a reference implementation of [Internal Developer Platform](https://internaldeveloperplatform.org/) to teams that manage hundreds of micro services, with a focus on enforcing good infrastructure architecture of web services.
+- [IDP](https://github.com/lipingtababa/Internal-Developer-Platform) runs on AWS Elastic Kubernetes Service, and tries to provide a reference implementation of [Internal Developer Platform](https://internaldeveloperplatform.org/) to teams that manage hundreds of micro services, with a focus on enforcing good infrastructure architecture of web services. While infrastructures are managed by terraform, applications are managed by helm charts.
 
-- [Account](https://github.com/lipingtababa/account) runs on AWS Elastic Container Service, and consists of 5 micro-services, with Cloud Map as the service discovery tool.
+- [Account](https://github.com/lipingtababa/account) runs on AWS Elastic Container Service, and consists of 5 micro-services, with Cloud Map as the service discovery tool. All infrastructures and applications are declared as terraform resources.
 
 - [Bullets](https://github.com/lipingtababa/bullets), runs on AWS Elastic Container Service too, and has a very similar API as TRDL. It can run on a Minikube instance too.
 
