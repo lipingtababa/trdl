@@ -13,27 +13,41 @@ export interface ApprovalRate {
 async function processApprovalRate(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
 	const url = new URL(request.url);
 	if (url.pathname === '/api/president' && request.method === 'POST') {
+		// POSTed body should be a JSON object
+		// 		{
+		// 			president: string,
+		// 			approvalRate: number
+		// 		}
 		console.log('POST');
 		const data: ApprovalRate  = await request.json();
 		if (data.president && data.approvalRate) {
 			await env.trdl_kv.put(data.president, String(data.approvalRate));
 			return new Response('OK', {status: 202, headers: {'Content-Type': 'text/plain'}});
 		}
-		return new Response('President and ApprovalRate are required', {status: 400, headers: {'content-type': 'text/plain'}});
+		return new Response('president and approvalRate are required', 
+					{status: 400, headers: {'content-type': 'text/plain'}}
+					);
 	}
 	else if (url.pathname.startsWith('/api/president/') && request.method === 'GET') {
 		// Get the name from /api/presidents/{president name}
-		console.log("##### " + url.pathname)
 		let key = url.pathname.substring('/api/president/'.length);
 		if (key) {
 			key = decodeURIComponent(key);
-			const value = await env.trdl_kv.get(key);
-			if (value) {
-				return new Response(value, {status:200, headers: {'content-type': 'text/plain'}});
+			try {
+				const value = await env.trdl_kv.get(key);
+				if (value) {
+					return new Response(value, {status:200, headers: {'content-type': 'text/plain'}});
+				}
+				else{
+					return new Response(`${key} Not Found. url is ${url.pathname}`, {status: 404, headers: {'content-type': 'text/plain'}});
+				}
+			} catch (e) {
+				console.error(e);
+				return new Response('Internal error', {status: 500, headers: {'content-type': 'text/plain'}});
 			}
-			return new Response(`${key} Not Found. url is ${url.pathname}`, {status: 404, headers: {'content-type': 'text/plain'}});
+		}else{
+			return new Response("Key is required", {status: 400, headers: {'content-type': 'text/plain'}});
 		}
-		return new Response("Key is required", {status: 400, headers: {'content-type': 'text/plain'}});
 	}
 	return new Response('Method not supported', {status: 405, headers: {'content-type': 'text/plain'}});
 }

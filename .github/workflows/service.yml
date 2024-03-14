@@ -19,7 +19,7 @@ jobs:
         run: |
           yarn install
 
-      - name: E2E testing
+      - name: Unit and E2E Testing
         env:
             CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
             CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -28,9 +28,9 @@ jobs:
               yarn dev
               sleep 5
               echo "Running tests"
-              yarn test --dir ./test
+              yarn test
 
-      - name: deploy
+      - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

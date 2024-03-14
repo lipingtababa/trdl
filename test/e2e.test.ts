@@ -45,7 +45,7 @@ describe('DYNAMIC', () => {
                                             });
                     const statusCode = resp.status;
                     expect(statusCode).toBe(400);
-                    expect(await resp.text()).toBe('President and ApprovalRate are required');
+                    expect(await resp.text()).toBe('president and approvalRate are required');
                     expect(resp.headers.get('Content-Type')).toBe('text/plain');
         });
 
